@@ -16,7 +16,7 @@ public class UsuarioService implements IUsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepo;
 
-    public Usuario buscarPorId(Long id) {
+    public Usuario getById(Long id) {
       Optional<Usuario> usuarioOp = usuarioRepo.findById(id);
       if(usuarioOp.isPresent()) {
         return usuarioOp.get();
@@ -24,7 +24,7 @@ public class UsuarioService implements IUsuarioService {
       throw new IllegalArgumentException("Id inválido!");
     }
 
-    public Usuario novoUsuario(Usuario usuario) {
+    public Usuario createUser(Usuario usuario) {
       if(usuario == null ||
           usuario.getNome() == null ||
           usuario.getSenha() == null) {
@@ -32,7 +32,7 @@ public class UsuarioService implements IUsuarioService {
       }
       return usuarioRepo.save(usuario);
     }
-    public List<Usuario> buscarTodos() {
+    public List<Usuario> getAllUsers() {
       return usuarioRepo.findAll();
     }
 }
