@@ -1,17 +1,15 @@
 package br.gov.sp.fatec.springproject.entity;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -32,17 +30,11 @@ public class Usuario {
   @JsonIgnore
   private String senha;
 
-  @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
-  @JsonIgnore
-  private List<Anotacao> anotacoes;
+  @OneToMany(mappedBy = "usuario")
+    private Set<Anotacao> anotacoes;
 
-  @ManyToMany
-  @JoinTable(name = "uau_usuario_autorizacao",
-    joinColumns = {@JoinColumn(name = "usr_id")},
-    inverseJoinColumns = {@JoinColumn(name = "aut_id")})
-  private List<Autorizacao> autorizacoes;
-
-  public Usuario() { }
+  @ManyToMany(mappedBy = "usuarios")
+  private Set<Autorizacao> autorizacoes;
 
   public Usuario(String nome, String senha) {
     this();
@@ -50,22 +42,48 @@ public class Usuario {
     this.senha = senha;
   }
 
+  public Usuario() {
+    this.anotacoes = new HashSet<Anotacao>();
+    this.autorizacoes = new HashSet<Autorizacao>();
+  }
+
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
   }
+
   public String getNome() {
     return nome;
   }
+
   public void setNome(String nome) {
     this.nome = nome;
   }
+
   public String getSenha() {
     return senha;
   }
+
   public void setSenha(String senha) {
     this.senha = senha;
+  }
+
+  public Set<Anotacao> getAnotacoes() {
+    return anotacoes;
+  }
+
+  public void setAnotacoes(Set<Anotacao> anotacoes) {
+    this.anotacoes = anotacoes;
+  }
+
+  public Set<Autorizacao> getAutorizacoes() {
+    return autorizacoes;
+  }
+
+  public void setAutorizacoes(Set<Autorizacao> autorizacoes) {
+    this.autorizacoes = autorizacoes;
   }
 }

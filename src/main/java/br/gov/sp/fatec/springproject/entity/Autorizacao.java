@@ -1,6 +1,7 @@
 package br.gov.sp.fatec.springproject.entity;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -9,12 +10,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "aut_autorizacao")
 public class Autorizacao {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "aut_id")
@@ -23,23 +27,38 @@ public class Autorizacao {
   @Column(name = "aut_nome")
   private String nome;
 
-  @ManyToMany(mappedBy = "autorizacoes")
-  @JsonIgnore
-  private List<Usuario> usuarios;
+  @ManyToMany
+    @JsonIgnore
+    @JoinTable(name = "uau_usuario_autorizacao",
+        joinColumns = {@JoinColumn(name = "aut_id")},
+        inverseJoinColumns = {@JoinColumn(name = "usr_id")})
+    private Set<Usuario> usuarios;
 
-  public Long getId() {
-    return id;
-  }
+    public Autorizacao() {
+        this.usuarios = new HashSet<Usuario>();
+    }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public String getNome() {
-    return nome;
-  }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-  public void setNome(String nome) {
-    this.nome = nome;
-  }
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Set<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
 }
