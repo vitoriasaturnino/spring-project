@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 
 import br.gov.sp.fatec.springproject.entity.Usuario;
 import br.gov.sp.fatec.springproject.repository.UsuarioRepository;
+import br.gov.sp.fatec.springproject.interfaces.IUsuarioService;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements IUsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepo;
