@@ -8,14 +8,15 @@ import org.springframework.stereotype.Service;
 
 import br.gov.sp.fatec.springproject.entity.Usuario;
 import br.gov.sp.fatec.springproject.repository.UsuarioRepository;
+import br.gov.sp.fatec.springproject.interfaces.IUsuarioService;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements IUsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepo;
 
-    public Usuario buscarPorId(Long id) {
+    public Usuario getById(Long id) {
       Optional<Usuario> usuarioOp = usuarioRepo.findById(id);
       if(usuarioOp.isPresent()) {
         return usuarioOp.get();
@@ -23,7 +24,7 @@ public class UsuarioService {
       throw new IllegalArgumentException("Id inválido!");
     }
 
-    public Usuario novoUsuario(Usuario usuario) {
+    public Usuario createUser(Usuario usuario) {
       if(usuario == null ||
           usuario.getNome() == null ||
           usuario.getSenha() == null) {
@@ -31,7 +32,7 @@ public class UsuarioService {
       }
       return usuarioRepo.save(usuario);
     }
-    public List<Usuario> buscarTodos() {
+    public List<Usuario> getAllUsers() {
       return usuarioRepo.findAll();
     }
 }
