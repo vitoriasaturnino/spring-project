@@ -10,6 +10,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -32,6 +35,12 @@ public class Usuario {
   @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
   @JsonIgnore
   private List<Anotacao> anotacoes;
+
+  @ManyToMany
+  @JoinTable(name = "uau_usuario_autorizacao",
+    joinColumns = {@JoinColumn(name = "usr_id")},
+    inverseJoinColumns = {@JoinColumn(name = "aut_id")})
+  private List<Autorizacao> autorizacoes;
 
   public Usuario() { }
 
